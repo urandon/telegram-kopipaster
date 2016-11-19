@@ -5,13 +5,15 @@ from requests import get
 import requests
 import random
 import os
+import sys
 import time
+import argparse
 
 import nltk
 import nltk.data
 
 import telegram
-from telegram.ext import Updater
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
 class Kopipaster(object):
@@ -60,11 +62,11 @@ class KopipasterBot(Kopipaster):
         self.dispatcher = self.updater.dispatcher
         self.wait_coef = wait_coef
         self.tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-        self.dispatcher.addTelegramCommandHandler('start', self.start)
-        self.dispatcher.addTelegramCommandHandler('cool', self.coolstory)
-        self.dispatcher.addTelegramCommandHandler('speed', self.set_speed)
-        self.dispatcher.addTelegramCommandHandler('die', self.die)
-        self.dispatcher.addTelegramMessageHandler(self.echo)
+        self.dispatcher.add_handler(CommandHandler('start', self.start))
+        self.dispatcher.add_handler(CommandHandler('cool', self.coolstory))
+        self.dispatcher.add_handler(CommandHandler('speed', self.set_speed))
+        self.dispatcher.add_handler(CommandHandler('die', self.die))
+        self.dispatcher.add_handler(MessageHandler(Filters.text, self.echo))
 
     def send_msg(self, bot, update, msg):
         time_start = time.time()
@@ -117,9 +119,15 @@ class KopipasterBot(Kopipaster):
     def stop(self):
         self.updater.stop()
 
+def make_parser():
+    parser = argparse.ArgumentParser(description='Kool telegram bot')
+    parser.add_argument('bot_secret', type=str, required=true,
+                        help='telegram bot token gathered from BotFather')
+    return parser
 
 if __name__ == '__main__':
+    args = make_parser().parse_args(sys.argv[1:])
     print 'pid: {}'.format(os.getpid())
-    bot_token = "bot_secret"
+    bot_token = args.bot_secret
     bot = KopipasterBot(bot_token)
     bot.launch()
