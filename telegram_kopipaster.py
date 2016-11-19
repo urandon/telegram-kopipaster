@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from requests import get
 import requests
@@ -121,7 +121,7 @@ class KopipasterBot(Kopipaster):
 
 def make_parser():
     parser = argparse.ArgumentParser(description='Kool telegram bot')
-    parser.add_argument('bot_secret', type=str, required=true,
+    parser.add_argument('bot_secret', type=str, required=True,
                         help='telegram bot token gathered from BotFather')
     return parser
 
