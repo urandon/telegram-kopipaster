@@ -121,7 +121,7 @@ class KopipasterBot(Kopipaster):
 
 def make_parser():
     parser = argparse.ArgumentParser(description='Kool telegram bot')
-    parser.add_argument('bot_secret', type=str, required=True,
+    parser.add_argument('bot_secret', type=str,
                         help='telegram bot token gathered from BotFather')
     return parser
 
