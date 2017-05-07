@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from bs4 import BeautifulSoup
 from requests import get
 import requests
@@ -31,7 +32,7 @@ class Kopipaster(object):
         req = get(url)
         if req.status_code != requests.codes.ok:
             if verbose:
-                print 'Error {}'.format(req.status_code)
+                print('Error {}'.format(req.status_code))
             return None
         soup = BeautifulSoup(req.content.decode(req.encoding))
         pasta = soup.findAll('meta', attrs={'property': 'vk:text'})[0]
@@ -127,7 +128,7 @@ def make_parser():
 
 if __name__ == '__main__':
     args = make_parser().parse_args(sys.argv[1:])
-    print 'pid: {}'.format(os.getpid())
+    print('pid: {}'.format(os.getpid()))
     bot_token = args.bot_secret
     bot = KopipasterBot(bot_token)
     bot.launch()
